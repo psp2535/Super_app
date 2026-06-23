@@ -5,10 +5,9 @@ import WeatherWidget from "../components/WeatherWidget";
 import NewsWidget from "../components/NewsWidget";
 import NotesWidget from "../components/NotesWidget";
 import TimerWidget from "../components/TimerWidget";
-import { ArrowRight, Film } from "lucide-react";
+import userAvatar from "../assets/user_avatar.png";
 
-// Default Profile Avatar image path (using a beautiful Unsplash portrait)
-const AVATAR_IMAGE = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80";
+const AVATAR_IMAGE = userAvatar;
 
 const Dashboard = () => {
   const user = useStore((state) => state.user);
@@ -20,10 +19,10 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-grid">
+    <div className="dashboard-container complete-dashboard-container">
+      <div className="dashboard-grid complete-dashboard-grid">
         
-        {/* WIDGET 1: User Profile Widget (Spans 2 cols, Row 1) */}
+        {/* WIDGET 1: Profile Card */}
         <div className="widget-card profile-widget">
           <div className="profile-avatar-wrapper">
             <img src={AVATAR_IMAGE} alt="User Avatar" className="profile-avatar" />
@@ -33,7 +32,6 @@ const Dashboard = () => {
             <p className="profile-email">{user.email}</p>
             <h4 className="profile-username">@{user.username}</h4>
             
-            {/* Displaying chosen categories chips */}
             <div className="profile-chips-grid">
               {categories.map((catId) => (
                 <span key={catId} className="profile-category-pill">
@@ -44,42 +42,44 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* WIDGET 2: Weather Widget (Spans 2 cols, Row 2) */}
+        {/* WIDGET 2: Weather Card */}
         <div className="widget-card weather-widget-container">
           <WeatherWidget />
         </div>
 
-        {/* WIDGET 3: Notes Widget (Spans 1 col, Row 1-2) */}
+        {/* WIDGET 3: Notes Card */}
         <div className="widget-card notes-widget-container">
           <NotesWidget />
         </div>
 
-        {/* WIDGET 4: News Widget (Spans 1 col, Row 1-3) */}
-        <div className="widget-card news-widget-container">
-          <NewsWidget />
-        </div>
-
-        {/* WIDGET 5: Countdown Timer Widget (Spans 2 cols, Row 3) */}
+        {/* WIDGET 4: Timer Card */}
         <div className="widget-card timer-widget-container">
           <TimerWidget />
         </div>
 
-        {/* WIDGET 6: Browse Movies Navigation Card (Spans 1 col, Row 3) */}
-        <div className="widget-card browse-movies-card" onClick={handleBrowseMovies}>
-          <div className="browse-content">
-            <div className="browse-icon-wrapper">
-              <Film size={28} className="browse-icon" />
-            </div>
-            <div className="browse-text-details">
-              <h4>Browse Entertainment</h4>
-              <p>Curated recommendations matching your selections</p>
-            </div>
-          </div>
-          <button type="button" className="btn-browse-action">
-            <ArrowRight size={24} />
-          </button>
+        {/* WIDGET 5: News Card */}
+        <div className="widget-card news-widget-container">
+          <NewsWidget />
         </div>
 
+      </div>
+
+      {/* Navigation Footer */}
+      <div className="dashboard-complete-footer">
+        <button
+          type="button"
+          className="btn-back"
+          onClick={() => navigate("/dashboard-simple")}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          className="btn-continue btn-active btn-browse"
+          onClick={handleBrowseMovies}
+        >
+          Browse
+        </button>
       </div>
     </div>
   );

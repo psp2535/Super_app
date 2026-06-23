@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchMovieDetails } from "../services/apiServices";
+import { fetchMovieDetails } from "../services/movieApi";
 import { X, Star, Clock, Tags } from "lucide-react";
 
 const MovieModal = ({ imdbID, onClose }) => {

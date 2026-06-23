@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store/useStore";
-import { searchMovieByGenre } from "../services/apiServices";
+import { searchMovieByGenre } from "../services/movieApi";
 import MovieCard from "../components/MovieCard";
 import MovieModal from "../components/MovieModal";
 import { ArrowLeft } from "lucide-react";
+import userAvatar from "../assets/user_avatar.png";
 
-const AVATAR_IMAGE = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80";
+const AVATAR_IMAGE = userAvatar;
 
 const Movies = () => {
   const selectedCategories = useStore((state) => state.categories);

@@ -3,8 +3,10 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useStore } from "../store/useStore";
 import Register from "../pages/Register";
 import Categories from "../pages/Categories";
+import DashboardSimple from "../pages/DashboardSimple";
 import Dashboard from "../pages/Dashboard";
 import Movies from "../pages/Movies";
+import NotFound from "../pages/NotFound";
 
 // Guard to ensure user is registered before accessing categories/dashboard/movies
 const RegistrationGuard = ({ children }) => {
@@ -46,6 +48,17 @@ export const AppRoutes = () => {
 
       {/* Protected App Routes */}
       <Route
+        path="/dashboard-simple"
+        element={
+          <RegistrationGuard>
+            <CategoryGuard>
+              <DashboardSimple />
+            </CategoryGuard>
+          </RegistrationGuard>
+        }
+      />
+
+      <Route
         path="/dashboard"
         element={
           <RegistrationGuard>
@@ -67,8 +80,8 @@ export const AppRoutes = () => {
         }
       />
 
-      {/* Fallback to Register page */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      {/* Fallback to NotFound page */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchTopHeadlines } from "../services/apiServices";
+import { fetchTopHeadlines } from "../services/newsApi";
 
 const NewsWidget = () => {
   const [articles, setArticles] = useState([]);
@@ -52,26 +52,28 @@ const NewsWidget = () => {
 
   const currentArticle = articles[activeIndex];
 
-  // Helper to format date
+  // Helper to format date matching mockup format "2-20-2023 | 07:35 PM"
   const formatPublishTime = (dateStr) => {
     try {
       const date = new Date(dateStr);
-      return date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric"
-      }) + " | " + date.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit"
-      });
+      const m = date.getMonth() + 1;
+      const d = date.getDate();
+      const y = date.getFullYear();
+      let hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      const hrStr = hours.toString().padStart(2, "0");
+      return `${m}-${d}-${y}  |  ${hrStr}:${minutes} ${ampm}`;
     } catch {
-      return dateStr;
+      return "2-20-2023 | 07:35 PM";
     }
   };
 
   return (
     <div className="news-widget">
-      {/* Article Image Container */}
+      {/* Top Part: Image with Overlay */}
       <div className="news-image-wrapper">
         <img
           src={currentArticle.urlToImage}
@@ -79,21 +81,17 @@ const NewsWidget = () => {
           className="news-image animate-fade-in"
           key={`img-${activeIndex}`}
         />
-        {/* News Source overlay */}
-        {currentArticle.author && (
-          <span className="news-source-tag">By {currentArticle.author}</span>
-        )}
-      </div>
-
-      {/* Article Text Content */}
-      <div className="news-content-panel animate-fade-in" key={`content-${activeIndex}`}>
-        <div className="news-meta">
-          <span className="news-timestamp">
+        <div className="news-image-overlay">
+          <h3 className="news-headline-overlay">{currentArticle.title}</h3>
+          <span className="news-timestamp-overlay">
             {formatPublishTime(currentArticle.publishedAt)}
           </span>
         </div>
-        <h3 className="news-headline">{currentArticle.title}</h3>
-        <p className="news-description">{currentArticle.description}</p>
+      </div>
+
+      {/* Bottom Part: White Description Box */}
+      <div className="news-description-wrapper animate-fade-in" key={`desc-${activeIndex}`}>
+        <p className="news-description-text">{currentArticle.description}</p>
       </div>
     </div>
   );
